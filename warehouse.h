@@ -7,7 +7,6 @@
 /*This class represents a warehouse storing many different food items and food quantities*/
 class warehouse
 {
-friend class inventory;
 public:
 	warehouse(std::string name); //Constructs a warehouse with the specified name
 	void food_request(std::string upc, int count); //Removes the specified count of food when requested
