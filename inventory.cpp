@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -16,6 +17,8 @@ map<string, warehouse> warehouses;
 //Tracks the number of requests recieved for certain food items
 map<string, int> requests;
 void food_item(string food);
+//The first day
+int day = 0;
 
 //Reads in a text file and populates the warehouses, foods, and requests
 void read_file(const char * filename)
@@ -30,26 +33,30 @@ void read_file(const char * filename)
 }
 
 //Creates a food item form a string, adds to all_foods
-void food_item(string food)
+void food_item(string f)
 {
 	vector<string> words;
 	size_t pos = 0;
 	string item;
-	cout << food;
-	cout << endl;
-	while(pos = food.find(":") != string::npos)
+	while(f.find(" ") != string::npos)
 	{
-		cout << food.find(":");
-		item = food.substr(0, pos);
-		cout << endl;
+		pos = f.find(" ");
+		item = f.substr(0, pos);
+		//cout << item;
+		//cout << endl;
 		words.push_back(item);
-		food.erase(0, pos+1);
+		f.erase(0, pos+1);
 	}
-	for(int i = 0; i < words.size(); i++)
+	words.push_back(f);
+	string upc = words[4];
+	int shelf_life = atoi(words[8].c_str());
+	string name;
+	for(int i = 11; i <words.size(); i++)
 	{
-		cout << words.at(i);
-		cout << endl;
+		name += words[i] + " ";
 	}
+	food foo(upc, shelf_life, name);
+	all_foods.push_back(foo);
 }
 
 int main()
