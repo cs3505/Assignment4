@@ -34,3 +34,39 @@ void food::add(const int & date, const int & count)
 		dates.push(date);
 	}
 }
+
+// Removes the specified amount of this food
+void food::remove(int count)
+{
+	// If there's no more of this food
+	if(expirations.size() == 0)
+		return;
+	
+	// If the amount of the closest date is more than what's needed
+	if(dates.front() > count)
+	{
+		expirations[dates.front()] -= count;
+		total -= count;
+	}
+	
+	// If amount of the closest date is equal to what's needed
+	if(dates.front() == count)
+	{
+		expirations.erase(dates.front());
+		dates.pop();
+		total -= count;
+	}
+	
+	// If amount of the closest date is less than what's needed
+	if(dates.front() < count)
+	{
+		total -= expirations[dates.front()]; // Decrease total
+		count -= expirations[dates.front()]; // Decrease count
+		expirations.erase(dates.front()); // Erase this group of oldest food
+		dates.pop(); // Remove this expiration date
+		remove(count); // Recursive call to remove remaining amount.
+	}
+}
+
+
+
