@@ -165,16 +165,18 @@ int main()
 	create_warehouse("Warehouse - Tacoma");
 	
 	recieve("Receive: 0984523912 7 Tacoma");
-	//cout << all_warehouses["Tacoma"].get_food("0984523912").total;
-	cout << endl;
+	food dude = all_warehouses["Tacoma"].get_food("0984523912");
+	recieve("Receive: 0984523912 7 Tacoma");
 	recieve("Receive: 0984523912 12 Tacoma");
 	recieve("Receive: 0353264991 6 Tacoma");
+
+	//cout << s;
+	//cout << all_foods["0353264991"].total;
+	//cout << endl;
+	//cout << all_warehouses.size();
 	recieve("Receive: 0353264991 2 Scottsdale");
 
 	request("Request: 0984523912 5 Tacoma");
-
-	food dude = all_warehouses["Tacoma"].get_food("0984523912");
-	int s = dude.total;
 }
 
 
