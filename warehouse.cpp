@@ -36,3 +36,7 @@ void warehouse::initialize_foods(const std::map<std::string, food> & foods)
 {
 	all_food = foods;
 }
+food warehouse::get_food(const string upc)
+{
+	return all_food[upc];
+}

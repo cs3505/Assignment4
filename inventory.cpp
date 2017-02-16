@@ -9,14 +9,12 @@
 #include <stdlib.h>
 
 using namespace std;
-
 //A list of all foods that the warehouse could possibly contain
 map<string, food> all_foods;
 //All warehouses that will be recieving food and food requests
 map<string, warehouse> all_warehouses;
 //Tracks the number of requests recieved for certain food items
 map<string, int> requests;
-void food_item(string food);
 //The first day
 int day = 0;
 
@@ -167,8 +165,16 @@ int main()
 	create_warehouse("Warehouse - Tacoma");
 	
 	recieve("Receive: 0984523912 7 Tacoma");
+	//cout << all_warehouses["Tacoma"].get_food("0984523912").total;
+	cout << endl;
+	recieve("Receive: 0984523912 12 Tacoma");
 	recieve("Receive: 0353264991 6 Tacoma");
 	recieve("Receive: 0353264991 2 Scottsdale");
+
+	request("Request: 0984523912 5 Tacoma");
+
+	food dude = all_warehouses["Tacoma"].get_food("0984523912");
+	int s = dude.total;
 }
 
 

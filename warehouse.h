@@ -15,6 +15,7 @@ public:
 	void check_expired(const std::string & date); //Checks for all expired food and removes it
 	std::set<std::string> stocked_items()const; //Resturns all of the food items upc numbers which are in stock in this warehouse
 	void initialize_foods(const std::map<std::string, food> & foods); //Starts the warehouse out with all the foods at a count of 0
+	food get_food(const std::string upc); //Returns the food item corresponding to the upc
 private:
 	std::string name; //Name of the warehouse
 	std::map<std::string, food> all_food;	//List of possible foods within the warehouse and their quantities
