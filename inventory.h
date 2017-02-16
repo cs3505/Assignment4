@@ -8,9 +8,7 @@
 class inventory
 {
 	private:
-		std::vector<food> all_foods;
-		std::map<std::string, warehouse> warehouses;
-		std::map<std::string, int> requests;
+		
 	public:
 		static void read_file(std::string filename);
 		inventory();

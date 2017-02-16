@@ -7,9 +7,10 @@
 class food
 {
 public:
-	food(std::string upc, int shelf_life, std::string name);//Creates a food object
-	void add(int date, int count);	//Adds to this food total the count, and maps the date and count into the expirations map
+	food(std::string &upc, int &shelf_life, std::string &name);//Creates a food object
+	void add(const int & date, const int & count);	//Adds to this food total the count, and maps the date and count into the expirations map
 	void remove(int count); //Removes the specified count of food items from the expirations, dates, and total
+	food();
 private:
 	std::string upc;	//Unique upc code for this food
 	int shelf_life;	//Shelf life in days of this food
