@@ -18,21 +18,9 @@ map<string, int> requests;
 //The first day
 int day = 0;
 
-//Reads in a text file and populates the warehouses, foods, and requests
-void read_file(const char * filename)
-{
-	ifstream infile(filename);
-	string line;
-	while (getline(infile, line))
-	{
-    	cout << line;
-    	cout << endl;
-	}
-}
-
 
 //Creates a food item from a string, adds to all_foods
-void food_item(string f)
+void create_food_item(string f)
 {
 	vector<string> words;
 	size_t pos = 0;
@@ -151,13 +139,114 @@ void request(string request)
 }
 
 
+// Performs all actions for a next day. Advances the day counter and throws
+// away all expired food. (When a food item's expiration day is reached, it 
+// expiresat the start of the day. An item with a shelf life of one day will 
+// expire at the start of the day after it arrived.)
+void next_day()
+{
+	day++; // Increase the count of the day.
+	
+	// Go through each item of each warehouse and remove anything that's expired.
+	// Iterator instructions from: http://www.learncpp.com/cpp-tutorial/16-3-stl-iterators-overview/
+	map<string, warehouse>::iterator it; // Declare iterator
+	it = all_warehouses.begin(); // Assign iterator to the start
+	while(it != all_warehouses.end()) // While iterator hasn't reached the end
+	{
+		cout << it->first << endl;
+		it->second.check_expired(day); // Have current warehouse expire its food
+		++it; // Advance iterator to next pair
+	}
+}
 
+
+//Reads in a text file and populates the warehouses, foods, and requests
+void read_file(const char * filename)
+{
+	ifstream infile(filename);
+	string line;
+	while (getline(infile, line))
+	{
+		// Find first word from line
+		size_t pos = line.find(" ");
+		string first_word = line.substr(0, pos);
+		// cout << line << endl; // prints out entire line
+		// cout << first_word << endl; // prints out first word from line 
+
+		
+    	// If first_word is "FoodItem"
+		if(first_word.compare("FoodItem") == 0)
+		{
+			create_food_item(line);
+			continue;
+		}
+		
+		// If first first_word is "Warehouse"
+		if(first_word.compare("Warehouse") == 0)
+		{
+			create_warehouse(line);
+			continue;
+		}
+		
+		// If first_word is "Receive:"
+		if(first_word.compare("Receive:") == 0)
+		{
+			recieve(line);
+			continue;
+		}
+		
+		// If first_word is "Request:"
+		if(first_word.compare("Request:") == 0)
+		{
+			request(line);
+			continue;
+		}
+		
+		// If first_word is "Next"
+		if(first_word.compare("Next") == 0)
+		{
+			next_day();
+		}
+		
+		// If first_word is "End", stop modifying inventories
+		if(first_word.compare("End") == 0)
+			return;
+		
+	}
+}
+
+
+// Prints out the state of the inventories in their current state.
+void print_result()
+{
+	// Print out "report by" statement
+	cout << "Report by Doug Garding and Connor Ottenbacher" << endl;
+
+	// Which products are empty everywhere.
+	cout << endl;
+	cout << "Unstocked Products:" << endl;
+	
+	
+	// Which products exist in 2 or more warehouses.
+	cout << endl;
+	cout << "Well-Stocked Products:" << endl;
+		
+	// Top 3 most popular products.
+	cout << endl;
+	cout << "Most Popular Products:" << endl;
+}
 
 
 int main()
 {
-	food_item("FoodItem - UPC Code: 0353264991  Shelf life: 2  Name: chestnut puree with vanilla");
-	food_item("FoodItem - UPC Code: 0984523912  Shelf life: 1  Name: the orange box");
+	// Reads in the file and processes its data
+	read_file("data1.txt");
+	
+	
+	
+	
+	create_food_item("FoodItem - UPC Code: 0353264991  Shelf life: 2  Name: chestnut puree with vanilla");
+	create_food_item("FoodItem - UPC Code: 0984523912  Shelf life: 1  Name: the orange box");
 	
 	create_warehouse("Warehouse - Columbus");
 	create_warehouse("Warehouse - Seattle");
@@ -165,16 +254,25 @@ int main()
 	create_warehouse("Warehouse - Tacoma");
 	
 	recieve("Receive: 0984523912 7 Tacoma");
-	//cout << all_warehouses["Tacoma"].get_food("0984523912").total;
-	cout << endl;
+	
+	const food& test_food = all_warehouses["Tacoma"].get_food("0984523912");
+	cout << "Name: " << test_food.name << endl;
+	cout << "Shelf Life: " << test_food.shelf_life << endl;
+	cout << "Total food: " << test_food.total << endl;
+	
 	recieve("Receive: 0984523912 12 Tacoma");
 	recieve("Receive: 0353264991 6 Tacoma");
 	recieve("Receive: 0353264991 2 Scottsdale");
 
 	request("Request: 0984523912 5 Tacoma");
 
-	food dude = all_warehouses["Tacoma"].get_food("0984523912");
-	int s = dude.total;
+	//food dude = all_warehouses["Tacoma"].get_food("0984523912");
+	//int s = dude.total;
+	
+	
+	// Prints report on processed data
+	print_result();
+	return 0;
 }
 
 
