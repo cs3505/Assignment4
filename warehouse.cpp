@@ -19,15 +19,8 @@ warehouse::warehouse()
 // Adds the recieved food to the warehouse.
 void warehouse::food_recieve(const std::string & upc, const int & date, const int & count)
 {
-	
-	food f = all_food[upc];
-	cout << f.total;
-	cout << endl;
-	f.add(date, count);
-	all_food.erase(upc);
-	all_food.insert(pair<string, food>(upc, f));
-	cout << f.total;
-	cout << endl;
+	food &this_food = all_food[upc];
+	this_food.add(date, count);
 }
 
 
@@ -36,9 +29,9 @@ void warehouse::food_recieve(const std::string & upc, const int & date, const in
 // all available food is removed.
 void warehouse::food_request(const std::string & upc, const int & count)
 {
-	food f = all_food[upc];
-	f.remove(count);
+	all_food[upc].remove(count);
 }
+
 
 void warehouse::check_expired(const int day)
 {
@@ -46,12 +39,12 @@ void warehouse::check_expired(const int day)
 	map<string, food>::iterator it; 
 	it = all_food.begin(); 
 	while(it != all_food.end()) 
-	{
-		
+	{		
 		// If some of this food expires today
 		if (it->second.dates.front() == day) 
 		{
 			it->second.dates.pop(); // Remove today's date from the queue
+			it->second.total -= it->second.expirations[day]; // Adjusts total for the loss of this amount of food
 			it->second.expirations.erase(day); // Removes these food from the map
 		}
 		
@@ -62,10 +55,24 @@ void warehouse::check_expired(const int day)
 // Adds all known foods to this warehosues list of all_foods
 void warehouse::initialize_foods(const std::map<std::string, food> foods) 
 {
-	for (map<string, food>::const_iterator it = foods.begin(); it != foods.end(); it++)
-	{
-		this->all_food.insert(pair<string, food>(it->first, it->second));
+	all_food = foods;
+}
+
+// Returns a set of all the foods in stock at this warehouse
+set<string> warehouse::stocked_items()const
+{
+	set<string> in_stock_items;
+	
+	// Go through each food item in catalog, and add it to set if it's in stock at this warehouse.
+	for (map<string, food>::const_iterator it = all_food.begin(); it != all_food.end(); ++it) 
+	{	
+		if (it->second.total > 0) 
+		{
+			in_stock_items.insert(it->second.upc);
+		}
 	}
+
+	return in_stock_items;
 }
 
 
