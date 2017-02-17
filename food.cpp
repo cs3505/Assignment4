@@ -12,6 +12,7 @@ food::food(std::string &upc, int &shelf_life, std::string &name)
 	this->name = name;
 	this->total = 0;
 }
+
 food::food()
 {
 
@@ -20,9 +21,15 @@ food::food()
 //Adds the food to the total and corresponding expirations
 void food::add(const int & date, const int & count)
 {
+<<<<<<< HEAD
 	this->total += count;
+=======
+	total += count;
+	
+>>>>>>> 3607b146acfe625952b5ea7da9eabe7c3875abe6
 	//Expiration date calculated from the date that this food was inserted plus its shelf life
 	int exp = date + shelf_life;
+	
 	//If there is already a quantity of food expiring on the same day, add to the count of that group of food
 	if(expirations.count(exp))
 	{

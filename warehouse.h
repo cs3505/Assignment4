@@ -12,7 +12,7 @@ public:
 	warehouse();
 	void food_request(const std::string & upc, const int & count); //Removes the specified count of food when requested
 	void food_recieve(const std::string & upc, const int & date, const int & count); //Adds the count of food when recieved
-	void check_expired(const std::string & date); //Checks for all expired food and removes it
+	void check_expired(const int day); //Checks for all expired food and removes it
 	std::set<std::string> stocked_items()const; //Resturns all of the food items upc numbers which are in stock in this warehouse
 	void initialize_foods(const std::map<std::string, food> foods); //Starts the warehouse out with all the foods at a count of 0
 	food get_food(const std::string upc); //Returns the food item corresponding to the upc
