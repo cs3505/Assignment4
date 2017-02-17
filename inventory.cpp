@@ -31,7 +31,6 @@ void create_food_item(string f)
 	{
 		pos = f.find(" ");
 		token = f.substr(0, pos);
-		//cout << token << endl;
 		words.push_back(token);
 		f.erase(0, pos+1);
 	}
@@ -153,7 +152,6 @@ void next_day()
 	it = all_warehouses.begin(); // Assign iterator to the start
 	while(it != all_warehouses.end()) // While iterator hasn't reached the end
 	{
-		cout << it->first << endl;
 		it->second.check_expired(day); // Have current warehouse expire its food
 		++it; // Advance iterator to next pair
 	}
@@ -170,8 +168,6 @@ void read_file(const char * filename)
 		// Find first word from line
 		size_t pos = line.find(" ");
 		string first_word = line.substr(0, pos);
-		// cout << line << endl; // prints out entire line
-		// cout << first_word << endl; // prints out first word from line 
 
 		
     	// If first_word is "FoodItem"
@@ -240,7 +236,7 @@ void print_result()
 int main()
 {
 	// Reads in the file and processes its data
-	read_file("data1.txt");
+	//read_file("data1.txt");
 	
 	
 	
@@ -254,31 +250,14 @@ int main()
 	create_warehouse("Warehouse - Tacoma");
 	
 	recieve("Receive: 0984523912 7 Tacoma");
-	food dude = all_warehouses["Tacoma"].get_food("0984523912");
+	//food dude = all_warehouses["Tacoma"].get_food("0984523912");
 	recieve("Receive: 0984523912 7 Tacoma");
-	
-	const food& test_food = all_warehouses["Tacoma"].get_food("0984523912");
-	cout << "Name: " << test_food.name << endl;
-	cout << "Shelf Life: " << test_food.shelf_life << endl;
-	cout << "Total food: " << test_food.total << endl;
 	
 	recieve("Receive: 0984523912 12 Tacoma");
 	recieve("Receive: 0353264991 6 Tacoma");
-
-	//cout << s;
-	//cout << all_foods["0353264991"].total;
-	//cout << endl;
-	//cout << all_warehouses.size();
 	recieve("Receive: 0353264991 2 Scottsdale");
-
 	request("Request: 0984523912 5 Tacoma");
 
-	//food dude = all_warehouses["Tacoma"].get_food("0984523912");
-	//int s = dude.total;
-	
-	
-	// Prints report on processed data
-	print_result();
 	return 0;
 }
 
