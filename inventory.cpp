@@ -30,15 +30,16 @@ void print_result();
 void print_unstocked_products();
 void print_well_stocked_products();
 void print_popular_products();
+bool well_stocked(food f);
 
 
 /** Main method used as the driver for all of the operations
  ** required to produce the expected results.
- **/
-int main()
+ */
+int main(int argc, const char* argv[])
 {
 	// Reads in the file and processes its data
-	read_file("data3.txt");
+	read_file(argv[1]);
 	// Prints results at the conclusion of processing the data.
 	print_result();
 	
@@ -286,7 +287,7 @@ void print_unstocked_products()
 	set<string> out_of_stock_items;
 	for (map<string, food>::const_iterator it = all_foods.begin(); it != all_foods.end(); ++it) 
 	{		
-		out_of_stock_items.insert(it->second.upc);
+		out_of_stock_items.insert(it->second.get_upc());
 	}
 	
 	// Now go through each warehouse to get their lists of in-stock foods
@@ -305,7 +306,7 @@ void print_unstocked_products()
 	// Now print the items that are out of stock
 	for (set<string>::const_iterator it3 = out_of_stock_items.begin(); it3 != out_of_stock_items.end(); ++it3) 
 	{	
-		cout << *it3 << " " << all_foods[*it3].name << endl;
+		cout << *it3 << " " << all_foods[*it3].get_name() << endl;
 	}
 }
 
@@ -316,7 +317,35 @@ void print_unstocked_products()
  **/
 void print_well_stocked_products()
 {
+	for (map<string, food>::const_iterator it = all_foods.begin(); it != all_foods.end(); ++it) 
+	{		
+		food f = it->second;
+		if(well_stocked(f))
+		{
+			cout << f.get_upc() + " " + f.get_name();
+			cout << endl;
+		}
+	}
 	
+}
+
+bool well_stocked(food f)
+{
+	int count = 0;
+	for (map<string, warehouse>::const_iterator it = all_warehouses.begin(); it != all_warehouses.end(); ++it) 
+	{		
+		const warehouse &w = it->second;
+		set<string> stocked_food = w.stocked_items();
+		if(stocked_food.count(f.get_upc()))
+		{
+			count ++;
+		}
+		if(count == 2)
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 
@@ -350,6 +379,7 @@ void print_popular_products()
 		}
 		requests.erase(sMost_popular);
 		
-		cout << sMost_popular << " " << all_foods[sMost_popular].name << endl;
+		cout << sMost_popular << " " << all_foods[sMost_popular].get_name() << endl;
 	}
 }
+

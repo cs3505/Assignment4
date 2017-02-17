@@ -73,5 +73,15 @@ void food::remove(int count)
 	}
 }
 
+std::string food::get_upc()const
+{
+	return upc;
+}
+
+std::string food::get_name()const
+{
+	return name;
+}
+
 
 
