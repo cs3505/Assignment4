@@ -1,3 +1,4 @@
+/* Authors Connor Ottenbacher and Doug Garding */
 #ifndef FOOD_H
 #define FOOD_H
 #include <string>

@@ -1,3 +1,5 @@
+/* Authors Connor Ottenbacher and Doug Garding */
+/*This file contains the main method that will print the report, keeps track of all warehouses and their foods as a file is read in */
 #include "food.h"
 #include "warehouse.h"
 #include <string>

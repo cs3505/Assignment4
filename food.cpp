@@ -1,3 +1,5 @@
+/* Authors Connor Ottenbacher and Doug Garding */
+/*This class represents quantities of a food item stored in a warehouse. The total is stored along with different quantities that expire on certain days. */
 #include "food.h"
 #include <string>
 #include <map>
@@ -15,7 +17,6 @@ food::food(std::string &upc, int &shelf_life, std::string &name)
 
 food::food()
 {
-	std::cout << "Creating default object" << std::endl;
 }
 
 //Adds the food to the total and corresponding expirations

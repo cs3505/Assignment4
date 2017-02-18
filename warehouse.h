@@ -1,3 +1,4 @@
+/* Authors Connor Ottenbacher and Doug Garding */
 #ifndef WAREHOUSE_H
 #define WAREHOUSE_H
 #include <string>

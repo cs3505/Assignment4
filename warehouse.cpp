@@ -1,3 +1,5 @@
+/* Authors Connor Ottenbacher and Doug Garding */
+/*This class represents a warehouse storing many different food items and food quantities*/
 #include "warehouse.h"
 #include "food.h"
 #include <string>
